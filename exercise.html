@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Invio di dati tramite POST</title>
+</head>
+<body>
+  <div id="container">
+    <form id="todo-form">
+      <div>
+        <label>Title</label>
+        <input type="text" id="todo-title" required />
+      </div>
+      <div>
+        <label>Completed</label>
+        <input type="checkbox" id="todo-completed" />
+      </div>
+
+      <button type="submit">Invia</button>
+    </form>
+  </div>
+
+  <script>
+    document.getElementById('todo-form').addEventListener('submit', async function(event) {
+      event.preventDefault();
+
+      const title = document.getElementById('todo-title').value;
+      const completed = document.getElementById('todo-completed').checked;
+
+      const url = 'https://jsonplaceholder.typicode.com/posts';
+
+      try {
+        const result = await fetch(url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ title, completed })
+        });
+
+        const datiResult = await result.json();
+
+        console.log(datiResult);
+      } catch (errore) {
+        console.error(errore);
+      }
+    });
+  </script>
+</body>
+</html>
